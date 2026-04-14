@@ -19,8 +19,8 @@ npm install
 \`\`\`
 
 2. Inicie o servidor de desenvolvimento:
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 
 3. Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
