@@ -14,9 +14,9 @@ NEXT_PUBLIC_WEATHER_KEY=cole_sua_chave_aqui_sem_aspas
 
 ## 🛠️ Como executar localmente
 1. Instale as dependências:
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
 2. Inicie o servidor de desenvolvimento:
 ```bash
