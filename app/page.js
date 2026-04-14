@@ -1,66 +1,44 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import SearchBar from '@/components/SearchBar';
+import WeatherCard from '@/components/WeatherCard';
+import Link from 'next/link';
 
-export default function Home() {
+async function getWeather(city) {
+  const key = process.env.NEXT_PUBLIC_WEATHER_KEY;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric&lang=pt_br`;
+
+  const res = await fetch(url);
+  if (!res.ok) return null;
+  return res.json();
+}
+
+export default async function Home({ searchParams }) {
+  const resolvedParams = await searchParams;
+  const query = resolvedParams?.query;
+
+  let weatherData = null;
+  if (query) {
+    weatherData = await getWeather(query);
+  }
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="container">
+      <h1 style={{ textAlign: 'center', marginBottom: '2rem', color: '#8257e5' }}>WeatherNow</h1>
+
+      <SearchBar />
+
+      {weatherData ? (
+        <WeatherCard weather={weatherData} isDetailed={false} />
+      ) : query ? (
+        <div className="card" style={{ textAlign: 'center' }}>Cidade não encontrada. Tente novamente.</div>
+      ) : (
+        <div className="card" style={{ textAlign: 'center', color: '#a8a8b3' }}>
+          Faça uma busca para ver o clima atual.
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      )}
+
+      <div style={{ marginTop: '3rem', textAlign: 'center' }}>
+        <Link href="/sobre" style={{ color: '#a8a8b3', textDecoration: 'underline' }}>Sobre o projeto</Link>
+      </div>
+    </main>
   );
 }
