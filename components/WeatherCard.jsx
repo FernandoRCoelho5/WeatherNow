@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function WeatherCard({ weather, isDetailed }) {
     const weatherArray = weather?.weather || [];
-    const weatherInfo = weatherArray || {};
+    const weatherInfo = weatherArray[0] || {};
 
     const iconCode = weatherInfo?.icon || '';
     const description = weatherInfo?.description || 'Clima indisponível';
@@ -28,7 +28,6 @@ export default function WeatherCard({ weather, isDetailed }) {
             </h2>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', marginBottom: '1rem' }}>
-                {/* O Ícone de Emoji */}
                 <div style={{ fontSize: '4rem', lineHeight: 1, filter: 'drop-shadow(0px 4px 8px rgba(0,0,0,0.2))' }}>
                     {textIcon}
                 </div>
